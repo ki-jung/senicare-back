@@ -13,10 +13,8 @@ public interface NurseRepository extends JpaRepository<NurseEntity, String> {
 
     boolean existsByTelNumber(String telNumber);
 
-    boolean existsBySnsIdAndJoinPath(String sns, String joinPath);
-
     NurseEntity findByUserId(String userId);
 
-    NurseEntity findBySnsIdAndJoinPath(String snsId, String registration);
+    NurseEntity findBySnsIdAndJoinPath(String snsId, String joinPath);
 
 }

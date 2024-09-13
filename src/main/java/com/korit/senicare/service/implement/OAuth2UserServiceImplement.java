@@ -49,7 +49,7 @@ public class OAuth2UserServiceImplement extends DefaultOAuth2UserService {
             Map<String, Object> attributes = new HashMap<>();
             attributes.put("snsId", snsId);
             attributes.put("joinPath", registration);
-            customOAuth2User = new CustomOAuth2User(null, attributes);
+            customOAuth2User = new CustomOAuth2User(snsId, attributes, false);
         } else {
             String userId = nurseEntity.getUserId();
             String token = jwtProvider.create(userId);
@@ -57,7 +57,7 @@ public class OAuth2UserServiceImplement extends DefaultOAuth2UserService {
             Map<String, Object> attributes = new HashMap<>();
             attributes.put("accessToken", token);
 
-            customOAuth2User = new CustomOAuth2User(userId, attributes);
+            customOAuth2User = new CustomOAuth2User(userId, attributes, true);
         }
 
         return customOAuth2User;
@@ -66,7 +66,7 @@ public class OAuth2UserServiceImplement extends DefaultOAuth2UserService {
     private String getSnsId(OAuth2User oAuth2User, String registration) {
         String snsId = null;
 
-        if (registration.equals("Kakao")) {
+        if (registration.equals("kakao")) {
             snsId = oAuth2User.getName();
         }
         if (registration.equals("naver")) {
