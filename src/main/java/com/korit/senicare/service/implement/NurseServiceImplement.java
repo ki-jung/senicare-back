@@ -17,14 +17,15 @@ public class NurseServiceImplement implements NurseService {
 
     private final NurseRepository nurseRepository;
 
-    NurseEntity nurseEntity = null;
-
     @Override
     public ResponseEntity<? super GetSignInResponseDto> getSignIn(String userId) {
+        
+        NurseEntity nurseEntity = null;
+
         try {
+
             nurseEntity = nurseRepository.findByUserId(userId);
-            if (nurseEntity == null)
-                return ResponseDto.noExistUserId();
+            if (nurseEntity == null) return ResponseDto.noExistUserId();
 
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -32,6 +33,7 @@ public class NurseServiceImplement implements NurseService {
         }
 
         return GetSignInResponseDto.success(nurseEntity);
-    }
 
+    }
+    
 }

@@ -38,7 +38,7 @@ public class WebSecurityConfig {
 
         private final OAuth2SuccessHandler oAuth2SuccessHandler;
         private final JwtAuthenticationFilter jwtAuthenticationFilter;
-        private final OAuth2UserServiceImplement oauth2Service;
+        private final OAuth2UserServiceImplement oAuth2Service;
 
         @Bean
         protected SecurityFilterChain configure(HttpSecurity security) throws Exception {
@@ -58,16 +58,15 @@ public class WebSecurityConfig {
                                                 .requestMatchers("/api/v1/auth/**", "/oauth2/callback/*", "/")
                                                 .permitAll()
                                                 .anyRequest().authenticated())
-                                // 인증 및 인가 작업 중 발생하는 예외 처리
+                                // 인증 및 인가 작업중 발생하는 예외 처리
                                 .exceptionHandling(exception -> exception
-                                        .authenticationEntryPoint(new AuthenticationFailEntryPoint())
-                                )
+                                                .authenticationEntryPoint(new AuthenticationFailEntryPoint()))
                                 // oAuth2 로그인 적용
                                 .oauth2Login(oauth2 -> oauth2
                                                 .redirectionEndpoint(endpoint -> endpoint.baseUri("/oauth2/callback/*"))
                                                 .authorizationEndpoint(endpoint -> endpoint
                                                                 .baseUri("/api/v1/auth/sns-sign-in"))
-                                                .userInfoEndpoint(endpoint -> endpoint.userService(oauth2Service))
+                                                .userInfoEndpoint(endpoint -> endpoint.userService(oAuth2Service))
                                                 .successHandler(oAuth2SuccessHandler))
                                 // 필터 등록
                                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
@@ -101,10 +100,9 @@ class AuthenticationFailEntryPoint implements AuthenticationEntryPoint {
                 authException.printStackTrace();
                 response.setContentType("application/json");
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                response.getWriter()
-                                .write("{ \"code\": \"" + ResponseCode.AUTHENITCATION_FAIL + "\", \"message\": \""
-                                                + ResponseMessage.AUTHENITCATION_FAIL + "\"}");
-
+                response.getWriter().write(
+                                "{ \"code\": \"" + ResponseCode.AUTHENTICATION_FAIL + "\", \"message\": \""
+                                                + ResponseMessage.AUTHENTICATION_FAIL + "\" }");
         }
 
 }

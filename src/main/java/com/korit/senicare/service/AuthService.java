@@ -13,13 +13,9 @@ import com.korit.senicare.dto.response.auth.SignInResponseDto;
 public interface AuthService {
 
     ResponseEntity<ResponseDto> idCheck(IdCheckRequestDto dto);
-
     ResponseEntity<ResponseDto> telAuth(TelAuthRequestDto dto);
-
     ResponseEntity<ResponseDto> telAuthCheck(TelAuthCheckRequestDto dto);
-
     ResponseEntity<ResponseDto> signUp(SignUpRequestDto dto);
-
     ResponseEntity<? super SignInResponseDto> signIn(SignInRequestDto dto);
 
 }
