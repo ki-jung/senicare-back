@@ -15,7 +15,7 @@ public class CareRecord {
     private String usedToolName;
     private Integer count;
 
-    private CareRecord(CareRecordEntity careRecordEntity) {
+    private CareRecord (CareRecordEntity careRecordEntity) {
         this.recordNumber = careRecordEntity.getRecordNumber();
         this.recordDate = careRecordEntity.getRecordDate();
         this.contents = careRecordEntity.getContents();
@@ -27,11 +27,13 @@ public class CareRecord {
 
         List<CareRecord> careRecords = new ArrayList<>();
 
-        for (CareRecordEntity careRecordEntity : careRecordEntities) {
+        for (CareRecordEntity careRecordEntity: careRecordEntities) {
             CareRecord careRecord = new CareRecord(careRecordEntity);
             careRecords.add(careRecord);
         }
 
         return careRecords;
+
     }
+
 }

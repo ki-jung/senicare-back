@@ -3,15 +3,21 @@ package com.korit.senicare.controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.korit.senicare.dto.request.nurse.PatchNurseRequestDto;
+import com.korit.senicare.dto.response.ResponseDto;
+import com.korit.senicare.dto.response.nurse.GetChargedCustomerResponseDto;
 import com.korit.senicare.dto.response.nurse.GetNurseListResponseDto;
 import com.korit.senicare.dto.response.nurse.GetNurseResponseDto;
 import com.korit.senicare.dto.response.nurse.GetSignInResponseDto;
 import com.korit.senicare.service.NurseService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -36,9 +42,25 @@ public class NurseController {
 
     @GetMapping("/{userId}")
     public ResponseEntity<? super GetNurseResponseDto> getNurse(
-            @PathVariable("userId") String userId
-    ) {
+            @PathVariable("userId") String userId) {
         ResponseEntity<? super GetNurseResponseDto> response = nurseService.getNurse(userId);
         return response;
     }
+
+    @PatchMapping(value = { "", "/" })
+    public ResponseEntity<ResponseDto> patchNurse(
+            @RequestBody @Valid PatchNurseRequestDto requestBody,
+            @AuthenticationPrincipal String userId) {
+        ResponseEntity<ResponseDto> response = nurseService.patchNurse(requestBody, userId);
+        return response;
+    }
+
+    @GetMapping("/{userId}/customers")
+    public ResponseEntity<? super GetChargedCustomerResponseDto> getChargedCustomer(
+        @PathVariable("userId") String userId
+    ) {
+        ResponseEntity<? super GetChargedCustomerResponseDto> response = nurseService.getChargedCustomer(userId);
+        return response;
+    }
+
 }
